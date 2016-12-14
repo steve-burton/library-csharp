@@ -115,7 +115,7 @@ namespace Catalog.Objects
           }
         }
 
-        public static List<Book> Search(string bookTitle)
+        public static List<Book> SearchByTitle(string bookTitle)
         {
           SqlConnection conn = DB.Connection();
           conn.Open();
@@ -144,6 +144,40 @@ namespace Catalog.Objects
             conn.Close();
           }
           return searchBook;
+        }
+
+        public static List<Book> SearchByAuthor(string author)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand((@"SELECT books.id, title, description FROM
+                                              authors_books JOIN books ON (authors_books.book_id = books.id)
+                                                            JOIN authors ON (authors.id = authors_books.author_id)
+                                                            WHERE authors.name = @AuthorName;"), conn);
+          SqlParameter authorParam = new SqlParameter("@AuthorName", author);
+          cmd.Parameters.Add(authorParam);
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+
+          List<Book> bookResults = new List<Book>();
+          while (rdr.Read())
+          {
+            int id = rdr.GetInt32(0);
+            string title = rdr.GetString(1);
+            string desc = rdr.GetString(2);
+            Book book = new Book(title, desc, id);
+            bookResults.Add(book);
+          }
+          if (rdr != null)
+          {
+            rdr.Close();
+          }
+          if (conn != null)
+          {
+            rdr.Close();
+          }
+          return bookResults;
         }
 
         public static Book Find(int id)
@@ -238,6 +272,15 @@ namespace Catalog.Objects
             SqlCommand cmd = new SqlCommand("DELETE FROM books;", conn);
             cmd.ExecuteNonQuery();
             conn.Close();
+        }
+
+        public static void DeleteAllInJoinTable()
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("DELETE FROM authors_books;", conn);
+          cmd.ExecuteNonQuery();
+          conn.Close();
         }
     }
 }

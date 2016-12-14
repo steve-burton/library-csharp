@@ -16,9 +16,9 @@
 | User can update books in the catalog                                                  |     x     |
 | User can delete books in the catalog                                                  |     x     |
 | User can list all books in the catalog                                                |     x     |
-| User can search for book by author                                                    |           |
-| User can search for book by title                                                     |           |
-| User can enter multiple authors for one book                                          |           |
+| User can search for book by author                                                    |     x     |
+| User can search for book by title                                                     |     x     |
+| User can enter multiple authors for one book                                          |     x     |
 | User can check books out                                                              |           |
 | User can check inventory and see how many copies of a book are available for checkout |           |
 | User can see history of books they checked out                                        |           |
