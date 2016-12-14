@@ -5,12 +5,6 @@ using System.Collections.Generic;
 using Catalog.Startup;
 using Catalog.Objects;
 
-// empty constructors are spaced with two tabs, will need to be populated based on class fields
-// Find and replace all instances of Book with the name of your class (e.g. Client), and all instances of book with the name of your class without any capitalization (e.g. client), etc.
-// Book
-// book
-// SECONDCLASS (used as a reference name for a secondary table which Book has a foreign key for, that may need to be deleted in case a Book is deleted)
-
 namespace Catalog.Tests
 {
   public class BookTests : IDisposable
@@ -39,6 +33,9 @@ namespace Catalog.Tests
     {
       Book testBook = new Book("Atlas Shrugged", "Lorem ipsum");
       testBook.Save();
+      Author newAuthor = new Author("Ayn Rand");
+      newAuthor.Save();
+      testBook.AddBook(newAuthor);
 
       List<Book> result = Book.GetAll();
       List<Book> testList = new List<Book>{testBook};
@@ -74,6 +71,7 @@ namespace Catalog.Tests
     public void Dispose()
     {
       Book.DeleteAll();
+      Author.DeleteAll();
     }
   }
 }

@@ -98,6 +98,25 @@ namespace Catalog.Objects
             }
         }
 
+        public void AddBook(Author newAuthor)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+          SqlCommand cmd = new SqlCommand("INSERT INTO authors_books (author_id, book_id) VALUES (@AuthorId, @BookId);", conn);
+          SqlParameter bookParam = new SqlParameter("@BookId", this.Id);
+          SqlParameter authorParam = new SqlParameter("@AuthorId", newAuthor.Id);
+          cmd.Parameters.Add(bookParam);
+          cmd.Parameters.Add(authorParam);
+          cmd.ExecuteNonQuery();
+
+          if (conn != null)
+          {
+            conn.Close();
+          }
+        }
+
+        
+
         public static Book Find(int id)
         {
             SqlConnection conn = DB.Connection();

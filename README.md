@@ -11,10 +11,10 @@
 
 | Behavior                                                                              | Completed |
 |---------------------------------------------------------------------------------------|-----------|
-| User can create books in the catalog                                                  |           |
-| User can read books in the catalog                                                    |           |
-| User can update books in the catalog                                                  |           |
-| User can delete books in the catalog                                                  |           |
+| User can create books in the catalog                                                  |     x     |
+| User can read books in the catalog                                                    |     x     |
+| User can update books in the catalog                                                  |     x     |
+| User can delete books in the catalog                                                  |     x     |
 | User can list all books in the catalog                                                |           |
 | User can search for book by author                                                    |           |
 | User can search for book by title                                                     |           |
