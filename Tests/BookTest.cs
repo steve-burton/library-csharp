@@ -55,6 +55,20 @@ namespace Catalog.Tests
     }
 
     [Fact]
+    public void Test_GetAllBooksInLibrary_true()
+    {
+      Book testBook1 = new Book("The Sun Also Rises", "Lorem ipsum");
+      Book testBook2 = new Book("The Grapes of Wrath", "Lorem ipsum");
+      testBook1.Save();
+      testBook2.Save();
+      
+      List<Book> result = Book.GetAll();
+      List<Book> allBooks = new List<Book>{testBook1, testBook2};
+
+      Assert.Equal(result, allBooks);
+    }
+
+    [Fact]
     public void Test_UpdateBookInDatabase()
     {
       string testName = "The Greats of Wrath";

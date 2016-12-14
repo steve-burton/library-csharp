@@ -15,7 +15,7 @@
 | User can read books in the catalog                                                    |     x     |
 | User can update books in the catalog                                                  |     x     |
 | User can delete books in the catalog                                                  |     x     |
-| User can list all books in the catalog                                                |           |
+| User can list all books in the catalog                                                |     x     |
 | User can search for book by author                                                    |           |
 | User can search for book by title                                                     |           |
 | User can enter multiple authors for one book                                          |           |

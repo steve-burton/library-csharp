@@ -115,14 +115,43 @@ namespace Catalog.Objects
           }
         }
 
-        
+        public static List<Book> Search(string bookTitle)
+        {
+          SqlConnection conn = DB.Connection();
+          conn.Open();
+
+          SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE title = (@BookTitle);", conn);
+
+          SqlParameter titleParameter = new SqlParameter("@BookTitle", bookTitle);
+          cmd.Parameters.Add(titleParameter);
+
+          SqlDataReader rdr = cmd.ExecuteReader();
+          List<Book> searchBook = new List<Book>{};
+          while (rdr.Read())
+          {
+            int searchId = rdr.GetInt32(0);
+            string searchTitle = rdr.GetString(1);
+            string searchDescription = rdr.GetString(2);
+            Book bookSearch = new Book(searchTitle, searchDescription, searchId);
+            searchBook.Add(bookSearch);
+          }
+          if (rdr != null)
+          {
+            rdr.Close();
+          }
+          if (conn != null)
+          {
+            conn.Close();
+          }
+          return searchBook;
+        }
 
         public static Book Find(int id)
         {
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE id = (@BookId)", conn);
+            SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE id = (@BookId);", conn);
 
             SqlParameter idParam = new SqlParameter("@BookId", id.ToString());
             cmd.Parameters.Add(idParam);
