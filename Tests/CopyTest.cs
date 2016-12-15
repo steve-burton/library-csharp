@@ -33,8 +33,8 @@ namespace Catalog.Tests
     {
       Copy testCopy = new Copy(1, 1);
       testCopy.Save();
-      // Book newBook = new Book("The Sun Also Rises", "1930s Spain", 1);
-      // newBook.Save();
+      Book newBook = new Book("The Sun Also Rises", "1930s Spain", 1);
+      newBook.Save();
       // testCopy.AddCopy(newBook);
 
       List<Copy> result = Copy.GetAll();
