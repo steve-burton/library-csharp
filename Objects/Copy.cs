@@ -91,22 +91,22 @@ namespace Catalog.Objects
             }
         }
 
-        public void AddCopy(Book newBook)
-        {
-          SqlConnection conn = DB.Connection();
-          conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO copies (book_id, quantity) VALUES (@BookId, @CopyQuantity);", conn);
-          SqlParameter bookParam = new SqlParameter("@BookId", newBook.Id);
-          SqlParameter copyQuantityParam = new SqlParameter("@CopyQuantity", this.Quantity);
-          cmd.Parameters.Add(bookParam);
-          cmd.Parameters.Add(copyQuantityParam);
-          cmd.ExecuteNonQuery();
-
-          if (conn != null)
-          {
-            conn.Close();
-          }
-        }
+        // public void AddCopy(Book newBook)
+        // {
+        //   SqlConnection conn = DB.Connection();
+        //   conn.Open();
+        //   SqlCommand cmd = new SqlCommand("INSERT INTO copies (book_id, quantity) VALUES (@BookId, @CopyQuantity);", conn);
+        //   SqlParameter bookParam = new SqlParameter("@BookId", newBook.Id);
+        //   SqlParameter copyQuantityParam = new SqlParameter("@CopyQuantity", this.Quantity);
+        //   cmd.Parameters.Add(bookParam);
+        //   cmd.Parameters.Add(copyQuantityParam);
+        //   cmd.ExecuteNonQuery();
+        //
+        //   if (conn != null)
+        //   {
+        //     conn.Close();
+        //   }
+        // }
 
         // public static List<Book> SearchByTitle(string bookTitle)
         // {

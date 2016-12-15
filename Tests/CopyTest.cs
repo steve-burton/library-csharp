@@ -29,13 +29,13 @@ namespace Catalog.Tests
     }
 
     [Fact]
-    public void Test_Save_SavesCopyToDatabase()
+    public void Test_SavesCopyToDatabase()
     {
-      Copy testCopy = new Copy(1);
+      Copy testCopy = new Copy(1, 1);
       testCopy.Save();
-      Book newBook = new Book("The Sun Also Rises", "1930s Spain");
-      newBook.Save();
-      testCopy.AddCopy(newBook);
+      // Book newBook = new Book("The Sun Also Rises", "1930s Spain", 1);
+      // newBook.Save();
+      // testCopy.AddCopy(newBook);
 
       List<Copy> result = Copy.GetAll();
       List<Copy> testList = new List<Copy>{testCopy};
