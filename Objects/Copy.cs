@@ -8,11 +8,13 @@ namespace Catalog.Objects
     {
         public int Id { get; set; }
         public int Quantity {get; set;}
+        public int BookId {get; set;}
 
-        public Copy(int quantity = 0, int copyId = 0)
+        public Copy(int quantity = 0, int BookId = 0, int copyId = 0)
         {
             this.Id = copyId;
             this.Quantity = quantity;
+            this.BookId = 0;
         }
 
         public override bool Equals(System.Object otherCopy)
@@ -26,6 +28,7 @@ namespace Catalog.Objects
                 Copy newCopy = (Copy)otherCopy;
                 bool checkId = (this.Id == newCopy.Id);
                 bool checkQuantity = (this.Quantity == newCopy.Quantity);
+                bool checkBookId = (this.BookId == newCopy.BookId);
                 return (checkId && checkQuantity);
             }
         }
@@ -49,7 +52,8 @@ namespace Catalog.Objects
             {
                 int copyId = rdr.GetInt32(0);
                 int copyQuantity = rdr.GetInt32(1);
-                Copy newCopy = new Copy(copyQuantity, copyId);
+                int copyBookId = rdr.GetInt32(2);
+                Copy newCopy = new Copy(copyQuantity, copyBookId, copyId);
                 allCopies.Add(newCopy);
             }
 
@@ -70,10 +74,12 @@ namespace Catalog.Objects
             SqlConnection conn = DB.Connection();
             conn.Open();
 
-            SqlCommand cmd = new SqlCommand("INSERT INTO copies (quantity) OUTPUT INSERTED.id VALUES(@CopyQuantity)", conn);
+            SqlCommand cmd = new SqlCommand("INSERT INTO copies (quantity, book_id) OUTPUT INSERTED.id VALUES(@CopyQuantity, @BookId);", conn);
 
             SqlParameter quantityParam = new SqlParameter("@CopyQuantity", this.Quantity);
+            SqlParameter bookIdParam = new SqlParameter("@BookId", this.BookId);
             cmd.Parameters.Add(quantityParam);
+            cmd.Parameters.Add(bookIdParam);
 
             SqlDataReader rdr = cmd.ExecuteReader();
 
@@ -95,9 +101,9 @@ namespace Catalog.Objects
         {
           SqlConnection conn = DB.Connection();
           conn.Open();
-          SqlCommand cmd = new SqlCommand("INSERT INTO copies (book_id, quantity) VALUES (@BookId, @CopyQuantity);", conn);
-          SqlParameter bookParam = new SqlParameter("@BookId", newBook.Id);
+          SqlCommand cmd = new SqlCommand("INSERT INTO copies (quantity, book_id) VALUES (@CopyQuantity, @BookId);", conn);
           SqlParameter copyQuantityParam = new SqlParameter("@CopyQuantity", this.Quantity);
+          SqlParameter bookParam = new SqlParameter("@BookId", newBook.Id);
           cmd.Parameters.Add(bookParam);
           cmd.Parameters.Add(copyQuantityParam);
           cmd.ExecuteNonQuery();
@@ -193,8 +199,9 @@ namespace Catalog.Objects
             {
                 foundCopyId = rdr.GetInt32(0);
                 foundCopyQuantity = rdr.GetInt32(1);
+                foundBookId = rdr.GetInt32(2);
             }
-            Copy newCopy = new Copy(foundCopyQuantity, foundCopyId);
+            Copy newCopy = new Copy(foundCopyQuantity, foundBookId, foundCopyId);
 
             if (rdr != null)
             {
