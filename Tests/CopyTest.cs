@@ -31,7 +31,7 @@ namespace Catalog.Tests
     [Fact]
     public void Test_SavesCopyToDatabase()
     {
-      Copy testCopy = new Copy(1, 1);
+      Copy testCopy = new Copy(2, 1);
       testCopy.Save();
       Book newBook = new Book("The Sun Also Rises", "1930s Spain", 1);
       newBook.Save();
@@ -42,18 +42,18 @@ namespace Catalog.Tests
 
       Assert.Equal(testList, result);
     }
-    //
-    // [Fact]
-    // public void Test_FindBookInDatabase()
-    // {
-    //   Book newBook = new Book("War and Peace", "lorem ipsum");
-    //   newBook.Save();
-    //
-    //   Book foundBook = Book.Find(newBook.Id);
-    //
-    //   Assert.Equal(newBook, foundBook);
-    // }
-    //
+
+    [Fact]
+    public void Test_FindCopyInDatabase()
+    {
+      Copy newCopy = new Copy(1, 1);
+      newCopy.Save();
+
+      Copy foundCopy = Copy.Find(newCopy.Id);
+
+      Assert.Equal(newCopy, foundCopy);
+    }
+
     // [Fact]
     // public void Test_GetAllBooksInLibrary_true()
     // {

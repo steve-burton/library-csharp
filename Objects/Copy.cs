@@ -173,41 +173,40 @@ namespace Catalog.Objects
         //   return bookResults;
         // }
         //
-        // public static Book Find(int id)
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE id = (@BookId);", conn);
-        //
-        //     SqlParameter idParam = new SqlParameter("@BookId", id.ToString());
-        //     cmd.Parameters.Add(idParam);
-        //
-        //     SqlDataReader rdr = cmd.ExecuteReader();
-        //
-        //     int foundBookId = 0;
-        //     string foundBookTitle = null;
-        //     string foundBookDesc = "";
-        //
-        //     while (rdr.Read())
-        //     {
-        //         foundBookId = rdr.GetInt32(0);
-        //         foundBookTitle = rdr.GetString(1);
-        //         foundBookDesc = rdr.GetString(2);
-        //     }
-        //     Book newBook = new Book(foundBookTitle, foundBookDesc, foundBookId);
-        //
-        //     if (rdr != null)
-        //     {
-        //         rdr.Close();
-        //     }
-        //     if (conn != null)
-        //     {
-        //         conn.Close();
-        //     }
-        //
-        //     return newBook;
-        // }
+        public static Copy Find(int id)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("SELECT * FROM copies WHERE id = (@CopyId);", conn);
+
+            SqlParameter idParam = new SqlParameter("@CopyId", id.ToString());
+            cmd.Parameters.Add(idParam);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            int foundCopyId = 0;
+            int foundCopyQuantity = 0;
+            int foundBookId = 0;
+
+            while (rdr.Read())
+            {
+                foundCopyId = rdr.GetInt32(0);
+                foundCopyQuantity = rdr.GetInt32(1);
+            }
+            Copy newCopy = new Copy(foundCopyQuantity, foundCopyId);
+
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+
+            return newCopy;
+        }
         //
         // public void Update(string newTitle, string newDescription)
         // {
