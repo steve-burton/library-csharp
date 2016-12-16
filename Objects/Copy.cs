@@ -114,71 +114,7 @@ namespace Catalog.Objects
           }
         }
 
-        // public static List<Book> SearchByTitle(string bookTitle)
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //
-        //   SqlCommand cmd = new SqlCommand("SELECT * FROM books WHERE title = (@BookTitle);", conn);
-        //
-        //   SqlParameter titleParameter = new SqlParameter("@BookTitle", bookTitle);
-        //   cmd.Parameters.Add(titleParameter);
-        //
-        //   SqlDataReader rdr = cmd.ExecuteReader();
-        //   List<Book> searchBook = new List<Book>{};
-        //   while (rdr.Read())
-        //   {
-        //     int searchId = rdr.GetInt32(0);
-        //     string searchTitle = rdr.GetString(1);
-        //     string searchDescription = rdr.GetString(2);
-        //     Book bookSearch = new Book(searchTitle, searchDescription, searchId);
-        //     searchBook.Add(bookSearch);
-        //   }
-        //   if (rdr != null)
-        //   {
-        //     rdr.Close();
-        //   }
-        //   if (conn != null)
-        //   {
-        //     conn.Close();
-        //   }
-        //   return searchBook;
-        // }
-        //
-        // public static List<Book> SearchByAuthor(string author)
-        // {
-        //   SqlConnection conn = DB.Connection();
-        //   conn.Open();
-        //
-        //   SqlCommand cmd = new SqlCommand((@"SELECT books.id, title, description FROM
-        //                                       authors_books JOIN books ON (authors_books.book_id = books.id)
-        //                                                     JOIN authors ON (authors.id = authors_books.author_id)
-        //                                                     WHERE authors.name = @AuthorName;"), conn);
-        //   SqlParameter authorParam = new SqlParameter("@AuthorName", author);
-        //   cmd.Parameters.Add(authorParam);
-        //
-        //   SqlDataReader rdr = cmd.ExecuteReader();
-        //
-        //   List<Book> bookResults = new List<Book>();
-        //   while (rdr.Read())
-        //   {
-        //     int id = rdr.GetInt32(0);
-        //     string title = rdr.GetString(1);
-        //     string desc = rdr.GetString(2);
-        //     Book book = new Book(title, desc, id);
-        //     bookResults.Add(book);
-        //   }
-        //   if (rdr != null)
-        //   {
-        //     rdr.Close();
-        //   }
-        //   if (conn != null)
-        //   {
-        //     rdr.Close();
-        //   }
-        //   return bookResults;
-        // }
-        //
+
         public static Copy Find(int id)
         {
             SqlConnection conn = DB.Connection();
@@ -214,55 +150,37 @@ namespace Catalog.Objects
 
             return newCopy;
         }
-        //
-        // public void Update(string newTitle, string newDescription)
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand("UPDATE books SET title = @newTitle, description = @newDescription OUTPUT INSERTED.title, INSERTED.description WHERE id = @BookId;", conn);
-        //
-        //     SqlParameter newTitleParam = new SqlParameter("@newTitle", newTitle);
-        //     SqlParameter newDescParam = new SqlParameter("@newDescription", newDescription);
-        //     SqlParameter idParam = new SqlParameter("@BookId", this.Id);
-        //
-        //     cmd.Parameters.Add(newTitleParam);
-        //     cmd.Parameters.Add(newDescParam);
-        //     cmd.Parameters.Add(idParam);
-        //
-        //     SqlDataReader rdr = cmd.ExecuteReader();
-        //
-        //     while (rdr.Read())
-        //     {
-        //         this.Title = rdr.GetString(0);
-        //         this.Description = rdr.GetString(1);
-        //     }
-        //     if (rdr != null)
-        //     {
-        //         rdr.Close();
-        //     }
-        //     if (conn != null)
-        //     {
-        //         conn.Close();
-        //     }
-        // }
 
-        // public void Delete()
-        // {
-        //     SqlConnection conn = DB.Connection();
-        //     conn.Open();
-        //
-        //     SqlCommand cmd = new SqlCommand("DELETE FROM copies WHERE id = @CopyId", conn);
-        //     SqlParameter idParam = new SqlParameter("@CopyId", this.Id);
-        //     cmd.Parameters.Add(idParam);
-        //
-        //     cmd.ExecuteNonQuery();
-        //
-        //     if (conn != null)
-        //     {
-        //         conn.Close();
-        //     }
-        // }
+        public void UpdateQuantity(int newQuantity)
+        {
+            SqlConnection conn = DB.Connection();
+            conn.Open();
+
+            SqlCommand cmd = new SqlCommand("UPDATE copies SET quantity = @newQuantity, OUTPUT INSERTED.quantity WHERE id = @CopyId;", conn);
+
+            SqlParameter newQuantityParam = new SqlParameter("@newQuantity", newQuantity);
+            SqlParameter idParam = new SqlParameter("@CopyId", this.Id);
+
+            cmd.Parameters.Add(newQuantityParam);
+            cmd.Parameters.Add(idParam);
+
+            SqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                this.Quantity = rdr.GetInt32(0);
+            }
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+
+
 
         public static void DeleteAll()
         {
